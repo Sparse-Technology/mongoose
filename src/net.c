@@ -276,4 +276,8 @@ void mg_mgr_init(struct mg_mgr *mgr) {
   mgr->dns4.url = "udp://8.8.8.8:53";
   mgr->dns6.url = "udp://[2001:4860:4860::8888]:53";
   mg_tls_ctx_init(mgr);
+
+#if (MG_ENABLE_DRIVER_INIT == 1) && defined(MG_TCPIP_DRIVER_INIT)
+  MG_TCPIP_DRIVER_INIT(mgr);
+#endif
 }

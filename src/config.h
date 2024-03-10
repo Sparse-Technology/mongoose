@@ -157,3 +157,33 @@
 #ifndef MG_ENABLE_PROFILE
 #define MG_ENABLE_PROFILE 0
 #endif
+
+#ifndef MG_ENABLE_DRIVER_INIT
+#define MG_ENABLE_DRIVER_INIT 1
+#endif
+
+#ifndef MG_TCPIP_IP
+#define MG_TCPIP_IP 0
+#endif
+
+#ifndef MG_TCPIP_MASK
+#define MG_TCPIP_MASK 0
+#endif
+
+#ifndef MG_TCPIP_GW
+#define MG_TCPIP_GW 0
+#endif
+
+#define MG_MAC_ADDRESS_RANDOM \
+  { 0, 0, 0, 0, 0, 0 }
+
+#define MG_MAC_ADDRESS_STM32_UID(ADDR)                       \
+  {                                                          \
+    2, ((uint8_t *) (ADDR))[0] ^ ((uint8_t *) (ADDR))[1],    \
+        ((uint8_t *) (ADDR))[2] ^ ((uint8_t *) (ADDR))[3],   \
+        ((uint8_t *) (ADDR))[4] ^ ((uint8_t *) (ADDR))[5],   \
+        ((uint8_t *) (ADDR))[6] ^ ((uint8_t *) (ADDR))[7] ^  \
+            ((uint8_t *) (ADDR))[8],                         \
+        ((uint8_t *) (ADDR))[9] ^ ((uint8_t *) (ADDR))[10] ^ \
+            ((uint8_t *) (ADDR))[11]                         \
+  }

@@ -16,3 +16,33 @@ struct mg_tcpip_driver_stm32f_data {
 
   uint8_t phy_addr;  // PHY address
 };
+
+#ifndef MG_MAC_ADDRESS
+#define MG_MAC_ADDRESS MG_MAC_ADDRESS_RANDOM
+#endif
+
+#ifndef MG_TCPIP_PHY_ADDR
+#define MG_TCPIP_PHY_ADDR 0
+#endif
+
+#ifndef MG_TCPIP_MDC_CR
+#define MG_TCPIP_MDC_CR 4
+#endif
+
+#define MG_TCPIP_DRIVER_INIT(mgr)                                  \
+  do {                                                             \
+    static struct mg_tcpip_driver_stm32f_data driver_data = {      \
+        .mdc_cr = MG_TCPIP_MDC_CR,                                 \
+        .phy_addr = MG_TCPIP_PHY_ADDR,                             \
+    };                                                             \
+    static struct mg_tcpip_if mif = {                              \
+        .mac = MG_MAC_ADDRESS,                                     \
+        .ip = MG_TCPIP_IP,                                         \
+        .mask = MG_TCPIP_MASK,                                     \
+        .gw = MG_TCPIP_GW,                                         \
+        .driver = &mg_tcpip_driver_stm32f,                         \
+        .driver_data = &driver_data,                               \
+    };                                                             \
+    mg_tcpip_init((mgr), &mif);                                    \
+    MG_INFO(("Driver: stm32fxx, MAC: %M", mg_print_mac, mif.mac)); \
+  } while (0)
